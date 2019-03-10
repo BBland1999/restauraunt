@@ -1,0 +1,35 @@
+{% for item in menuItems %}
+    <div class='menuItem'>
+        <img class="menuImage" src="static/photos/{{ item.photo }}" alt="{{ item.name }} image" >
+        <p class="menuItemName">
+            {{ item['name'] }}
+        </p>
+        <p class='menuItemText'>
+            {{ item['description'] }}
+        </p>
+        <br>
+        <form id="{{ item.food_id }}">
+            <input type='hidden' name='food_id' value="{{ item.food_id }}">
+            <div class='buttonCenter'>
+                <button class='orderButton' type='submit'>Order</button>
+            </div>
+        </form>
+
+    </div>
+
+    <script>
+        $("#{{ item.food_id }}").submit(function(event){
+            event.preventDefault();
+            var formData = $(this).serialize();
+            $.post('/orderHandler', formData, function(data){
+                if(data[0] != "Error"){
+                    console.log(data[1])
+                }
+                else{
+                    alert(data[1]);
+                }
+
+            });
+        });
+    </script>
+{% endfor %}

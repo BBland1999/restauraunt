@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <meta charset="UTF-8">
+    <title>{% block title %}Template{% endblock %}</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <style>
+        .nav{
+			height: 100%;
+			float: left;
+			background-color: rgb(255, 239, 0);
+			font-size: 2em;
+			text-align: center;
+		}
+		.nav:hover{
+			background-color: rgb(255, 247, 0);
+		}
+		.navText{
+			margin-bottom: .5em;
+			margin-top: .5em;
+		}
+		#navBar{
+			width: 100%;
+			height: 5em;
+			position: fixed;
+			display: grid;
+			grid-template-columns: auto auto auto auto auto;
+			top: 0px;
+			left:0px;
+			background-color: rgb(255, 239, 0);
+		}
+
+		#wrapper{
+			width: 90%;
+			margin-left: auto;
+			margin-right: auto;
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+			grid-gap: 1em;
+		}
+
+		.menuItem{
+			background-color: rgba(255, 250, 240, 0.6);
+			border: 2px solid rgba(205, 183, 158, 0.5);
+			border-radius: 1em;
+			padding-left: 2em;
+			padding-right: 2em;
+			padding-bottom: 1em;
+			padding-top: 3em;
+			display: flex;
+			flex-direction: column;
+		}
+		body{
+			background-image: url("/static/background2.jpeg");
+			background-attachment: fixed;
+			background-position: center;
+			background-repeat: no-repeat;
+			background-size: cover;
+		}
+
+		p, h1, h2, h3, h4, button{
+			font-family: 'Lobster', cursive;
+		}
+
+		.menuItemText{
+			text-align: center;
+			font-size: 1.8em;
+		}
+		.menuItemName{
+			text-align: center;
+			color: rgb(212, 0, 0);
+			font-size: 2.4em;
+		}
+		.menuImages{
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			width: 20em;
+			height: 16em;
+		}
+		.title{
+			/*color: rgb(212, 0, 0);*/
+			text-align: center;
+			font-size: 3em;
+		}
+		.buttonCenter{
+			text-align: center;
+		}
+		.orderButton{
+			text-align: center;
+			color: rgb(212, 0, 0);
+			font-size: 1.4em;
+			width: 80%;
+			height: 3em;
+			margin-left: auto;
+			margin-right: auto;
+			border-radius: 1em;
+			background-color: rgb(255, 239, 0);
+		}
+		#content{
+		    text-align: center;
+		    width: 100%;
+		    margin-left: auto;
+            margin-right: auto;
+		}
+		.formDiv{
+		    display: inline-block;
+		}
+		.formDiv *{
+		    position: relative;
+		    text-align: left;
+		}
+
+    </style>
+    {% block head %}
+    {% endblock %}
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <div id="content">{% block content %}{% endblock %}</div>
+</body>
+</html>

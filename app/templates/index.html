@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block title %}Home{% endblock %}
+{% block head %}
+    <style>
+        #wrapper{
+			width: 90%;
+			margin-left: auto;
+			margin-right: auto;
+			display: grid;
+			grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+			grid-gap: 1em;
+		}
+    </style>
+{% endblock %}
+{% block content %}
+    <h1>Menu</h1>
+    <div id="wrapper">
+        {% with menuItems=menuItems %}
+                {% include "printMenu.html" %}
+        {% endwith %}
+    </div>
+{% endblock %}

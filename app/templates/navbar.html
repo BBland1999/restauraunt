@@ -1,0 +1,35 @@
+<div id='navBar'>
+	<div class='nav' id='homeButton'>
+		<p class='navText'>Menu</p>
+	</div>
+	<div class='nav' id='order'>
+		<p class='navText'>My Order</p>
+	</div>
+	<div class='nav' id='login'>
+		<p class='navText'>
+			{% if current_user.is_authenticated %}
+				Logout
+			{% else %}
+				Login
+			{% endif %}
+		</p>
+	</div>
+	<div class='nav' id='register'>
+		<p class='navText'>Register</p>
+	</div>
+</div><br><br><br>
+
+<script>
+	$('#homeButton').click(function(){
+		window.location.href = '/';
+	});
+	$('#order').click(function(){
+		window.location.href = '/order';
+	});
+	$('#login').click(function(){
+		window.location.href = '/login';
+	});
+	$('#register').click(function(){
+		window.location.href = '/register';
+	});
+</script>
