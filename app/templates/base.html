@@ -6,9 +6,11 @@
     <title>{% block title %}Template{% endblock %}</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <link href="https://fonts.googleapis.com/css?family=Lobster" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Mono" rel="stylesheet">
     <style>
 
-        p, h1, h2, h3, h4, button, a{
+        p, h1, h2, h3, h4, button, a, pre {
 	        font-family: 'Lobster', cursive;
         }
         .nav{
@@ -17,9 +19,11 @@
 			background-color: rgb(255, 239, 0);
 			font-size: 2em;
 			text-align: center;
+			display: inline;
+			cursor: pointer;
 		}
 		.nav:hover{
-			background-color: rgb(255, 247, 0);
+			background-color: yellow/*rgb(255, 247, 0)*/;
 		}
 		.navText{
 			margin-bottom: .5em;
@@ -34,6 +38,7 @@
 			top: 0px;
 			left:0px;
 			background-color: rgb(255, 239, 0);
+			z-index: 4;
 		}
 
 		#wrapper{
@@ -41,7 +46,7 @@
 			margin-left: auto;
 			margin-right: auto;
 			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+			grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
 			grid-gap: 1em;
 		}
 
@@ -55,6 +60,8 @@
 			padding-top: 3em;
 			display: flex;
 			flex-direction: column;
+			position: relative;
+			/*overflow: hidden;*/
 		}
 		body{
 			background-image: url("/static/background2.jpeg");
@@ -81,8 +88,16 @@
 			display: block;
 			margin-left: auto;
 			margin-right: auto;
+			transition: transform .05s;
 			width: 20em;
 			height: 16em;
+			position: relative;
+			z-index: 2;
+		}
+		.menuImages:hover{
+		    transform: scale(1.5);
+		    box-shadow: 2px 2px 4px 0 black;
+		    z-index: 3;
 		}
 		.title{
 			/*color: rgb(212, 0, 0);*/
@@ -98,10 +113,13 @@
 			font-size: 1.4em;
 			width: 80%;
 			height: 3em;
-			margin-left: auto;
-			margin-right: auto;
 			border-radius: 1em;
 			background-color: rgb(255, 239, 0);
+			position: absolute;
+			margin-left: 10%;
+			left: 0;
+			bottom: 1em;
+			cursor: pointer;
 		}
 		#content{
 		    text-align: center;
@@ -116,8 +134,114 @@
 		    position: relative;
 		    text-align: left;
 		}
+		.spacer{
+		    height: 3.5em;
+		}
+        #submitButton{
+            margin-left: 20%;
+            width: 60%;
+        }
 
+        #submitButton > * {
+            cursor: pointer;
+            width: 100%;
+            color: rgb(212, 0, 0);
+            background-color: rgb(255, 239, 0);
+            border-radius: 1em;
+			font-size: 1.4em;
+			height: 2em;
+			text-align: center;
+			font-family: 'Lobster', cursive;
+        }
+        #submitButton > *: hover{
+            background-color: yellow;
+        }
     </style>
+    <script>
+        function ReadCookie() {
+               var allcookies = document.cookie;
+               var returnCookies = [];
+               //document.write ("All Cookies : " + allcookies );
+
+               // Get all the cookies pairs in an array
+               cookiearray = allcookies.split(';');
+
+               // Now take key value pair out of this array
+               for(var i=0; i<cookiearray.length; i++) {
+                  myname = cookiearray[i].split('=')[0];
+                  myvalue = cookiearray[i].split('=')[1];
+                  //document.write ("Key is : " + name + " and Value is : " + value);
+                  var obj = {name:myname, value:myvalue};
+                  returnCookies.push(obj);
+               }
+                return returnCookies;
+            }
+
+            function getCookie(cname) {
+                  var name = cname + "=";
+                  var decodedCookie = decodeURIComponent(document.cookie);
+                  var ca = decodedCookie.split(';');
+                  for(var i = 0; i <ca.length; i++) {
+                        var c = ca[i];
+                        while (c.charAt(0) == ' ') {
+                          c = c.substring(1);
+                        }
+                        if (c.indexOf(name) == 0) {
+                          return c.substring(name.length, c.length);
+                        }
+                  }
+                  return "";
+            }
+            function checkIfCounterExists(){
+                   if(document.cookie.indexOf("restaurauntCounter=") >= 0){
+                        return true;
+                   }
+                   else{
+                        return false;
+                   }
+            }
+            function setCounter(setCount){
+
+                document.cookie = "restaurauntCounter=" + setCount + "; max-age=" + (60 * 60 * 24) + ";";
+                return;
+            }
+            function incrementCounter(){
+                if(checkIfCounterExists() == true){
+                    var counter = getCookie("restaurauntCounter");
+                    console.log(counter);
+                    setCounter(parseInt(counter) + 1);
+                }
+                else{
+                    setCounter(1);
+                }
+                updateTicker();
+                return;
+            }
+            function clearCount(){
+                document.cookie = "restaurauntCounter=0; max-age=0;";
+                updateTicker();
+                return;
+            }
+            function updateTicker(){
+                var counter = getCookie("restaurauntCounter");
+                if(checkIfCounterExists() == false){
+                    $("#orderCounter").html("0");
+                }
+                else if(parseInt(counter) < 99){
+                    $("#orderCounter").html(counter);
+                }
+                else{
+                    $("#orderCounter").html("99+");
+                }
+                return;
+            }
+            function getCountFromServer(){
+                $.post('/countHandler', function(data){
+                    setCounter(parseInt(data));
+                    updateTicker();
+                });
+            }
+    </script>
     {% block head %}
     {% endblock %}
 </head>

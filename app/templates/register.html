@@ -1,10 +1,15 @@
 {% extends "base.html" %}
 {% block title %}Register{% endblock %}
 {% block head %}
+    <script>
+        $(document).ready(function() {
+            $("#register > p").css("color", "red");
+        });
+    </script>
 {% endblock %}
 {% block content %}
+    <h1>Register</h1>
     <div class="formDiv">
-        <h1>Register</h1>
         <form action="" method="post">
             {{ form.hidden_tag() }}
             <p>
@@ -49,7 +54,7 @@
                 <span style="color: red;">[{{ error }}]</span>
                 {% endfor %}
             </p>
-            <p>{{ form.submit() }}</p>
+            <p id="submitButton">{{ form.submit() }}</p>
         </form>
     </div>
 {% endblock %}

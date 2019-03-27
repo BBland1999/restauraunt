@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block head %}
+    <script>
+        $(document).ready(function() {
+            $("#homeButton > p").css("color", "red");
+        });
+        getCountFromServer();
+    </script>
     <style>
         #wrapper{
 			width: 90%;

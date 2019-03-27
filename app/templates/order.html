@@ -1,27 +1,56 @@
 {% extends "base.html" %}
 {% block title %}Order{% endblock %}
 {% block head %}
-    #content{
-			width: 90%;
-			margin-left: auto;
-			margin-right: auto;
-			display: grid;
-			grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-			grid-gap: 1em;
-		}
+    <script>
+        $(document).ready(function() {
+            $("#order > pre").css("color", "red");
+        });
+    </script>
+    <style>
+        .orderItems{
+            font-family:'Roboto Mono';
+        }
+        #orderTicket{
+            width: 20%;
+            background-color: rgba(255, 250, 250, .9);
+            border-radius: 1em;
+            text-align: center !important;
+        }
+
+
+    </style>
+
 {% endblock %}
 {% block content %}
-    <div class="formDiv">
+    <h1>{% if submitted is none %}
+            Your Order
+        {% else %}
+            Thank You For Your Order!
+        {% endif %}
+    </h1>
+
+
+        {% if submitted is not none %}
+            <h2>
+            Order Submitted:
+            {{ submitted }}
+            </h2>
+        {% endif %}
+
+
+    <div class="formDiv" id="orderTicket">
         <ul>
             {% for item in order_items %}
-                <li>{{ item['name'] }}</li>
+                <li class="orderItems">{{ item['name'] }}</li>
             {% endfor %}
         </ul>
+        {% if submitted is none %}
+        <br>
         <form action="" method="post" novalidate>
             {{ form.hidden_tag() }}
 
-            <p>{{ form.submit() }}</p>
+            <p id="submitButton">{{ form.submit() }}</p>
         </form>
-
+        {% endif %}
     </div>
 {% endblock %}

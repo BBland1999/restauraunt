@@ -3,7 +3,9 @@
 		<p class='navText'>Menu</p>
 	</div>
 	<div class='nav' id='order'>
-		<p class='navText'>My Order</p>
+
+		<pre class='navText'>My Order   <span id="orderCounter" style="color: yellow; font-size: .6em; background-color: black; padding-left:.3em; padding-right: .3em;border-radius:50%; font-family: 'Roboto Mono', monospace;"></span></pre>
+
 	</div>
 	<div class='nav' id='login'>
 		<p class='navText'>
@@ -27,9 +29,16 @@
 		window.location.href = '/order';
 	});
 	$('#login').click(function(){
+		console.log($("#login > p").html());
+		if($("#login > p").html().includes("Logout")){
+			clearCount();
+		}
 		window.location.href = '/login';
 	});
 	$('#register').click(function(){
 		window.location.href = '/register';
+	});
+	$(document).ready(function(){
+		updateTicker();
 	});
 </script>

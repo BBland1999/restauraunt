@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 {% block title %}Login{% endblock %}
 {% block head %}
+    <script>
+        $(document).ready(function() {
+            $("#login > p").css("color", "red");
+        });
+    </script>
 {% endblock %}
 {% block content %}
     <h1>Sign In</h1>
@@ -15,7 +20,7 @@
                 {{ form.password.label }}<br>
                 {{ form.password(size=30) }}
             </p>
-            <p>{{ form.submit() }}</p>
+            <p id="submitButton">{{ form.submit() }}</p>
         </form>
     </div>
 {% endblock %}

@@ -7,7 +7,9 @@
         <p class='menuItemText'>
             {{ item['description'] }}
         </p>
-        <br>
+        <div class="spacer">
+
+        </div>
         <form id="{{ item.food_id }}">
             <input type='hidden' name='food_id' value="{{ item.food_id }}">
             <div class='buttonCenter'>
@@ -23,13 +25,16 @@
             var formData = $(this).serialize();
             $.post('/orderHandler', formData, function(data){
                 if(data[0] != "Error"){
-                    console.log(data[1])
+                    console.log(data[1]);
+                    incrementCounter();
                 }
                 else{
                     alert(data[1]);
                 }
-
             });
+
+
+
         });
     </script>
 {% endfor %}
