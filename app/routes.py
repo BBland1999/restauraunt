@@ -4,6 +4,7 @@ from app.forms import LoginForm, RegistrationForm, SubmitOrder
 from flask_login import current_user, login_user, logout_user
 from app.models import My_User, Item, My_Order, My_Order2
 from app import db
+from app.accessories import rowproxy_to_dictlist
 from datetime import datetime
 
 # item = Item(None, "Cheese Cake", 'Appetizer', "Desc", "cheesecake.jpg")
@@ -124,20 +125,6 @@ def orderHandler():
 
 @app.route('/countHandler', methods=['POST'])
 def countHandler():
-    if current_user.is_authenticated:
-        uid = current_user.id
-        order2 = My_Order.query.filter_by(user_id=uid).first()
-        count = db.session.query(My_Order2).filter(My_Order2.order_id == order2.order_id).count()
-        return str(count)
-    else:
-        return "0"
+    return current_user.get_order_count()
 
-def rowproxy_to_dictlist(row):
-    d, l = {}, []
-    for rowproxy in row:
-        # rowproxy.items() returns an array like [(key0, value0), (key1, value1)]
-        for tup in rowproxy.items():
-            # build up the dictionary
-            d = {**d, **{tup[0]: tup[1]}}
-        l.append(d)
-    return l
+

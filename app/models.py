@@ -1,6 +1,6 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from app import db
-from flask_login import UserMixin
+from flask_login import UserMixin, current_user
 from app import login
 
 class Item(db.Model):
@@ -29,9 +29,6 @@ class My_User(UserMixin, db.Model):
     last_name = db.Column(db.VARCHAR(30), nullable=False)
     password = db.Column(db.VARCHAR(128), nullable=False)
 
-    def check_password(self, password):
-        return check_password_hash(self.password, password)
-
     def __init__(self, id, username, phone, first_name, last_name, password):
         self.id = id
         self.username = username
@@ -39,6 +36,21 @@ class My_User(UserMixin, db.Model):
         self.first_name = first_name
         self.last_name = last_name
         self.password = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password, password)
+
+
+    def get_order_count(self):
+        if self.is_authenticated:
+            uid = self.id
+            order2 = My_Order.query.filter_by(user_id=uid).first()
+            count = db.session.query(My_Order2).filter(My_Order2.order_id == order2.order_id).count()
+            return str(count)
+        else:
+            return "0"
+
+
 
 @login.user_loader
 def load_user(id):
